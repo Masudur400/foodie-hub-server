@@ -9,20 +9,20 @@ interface EnvConfig {
     FRONTEND_URL: string
     FRONTEND_URL2: string
 
-    // BCRYPT_SALT_ROUND: string
-    // EXPRESS_SESSION_SECRET: string
+    BCRYPT_SALT_ROUND: string
+    EXPRESS_SESSION_SECRET: string
 
     // SUPER_ADMIN_EMAIL: string
     // SUPER_ADMIN_PASSWORD: string
 
-    // ACCESS_SECRET: string
-    // ACCESS_EXPIRES: string
-    // REFRESH_SECRET: string
-    // REFRESH_EXPIRES: string
+    ACCESS_SECRET: string
+    ACCESS_EXPIRES: string
+    REFRESH_SECRET: string
+    REFRESH_EXPIRES: string
 
-    // CLOUDINARY_CLOUD_NAME: string
-    // CLOUDINARY_API_KEY: string
-    // CLOUDINARY_API_SECRET: string
+    CLOUDINARY_CLOUD_NAME: string
+    CLOUDINARY_API_KEY: string
+    CLOUDINARY_API_SECRET: string
 
 
     // STORE_ID: string
@@ -54,20 +54,20 @@ const loadEnvVariables = (): EnvConfig => {
         "FRONTEND_URL",
         "FRONTEND_URL2",
 
-        // "BCRYPT_SALT_ROUND",
-        // "EXPRESS_SESSION_SECRET",
+        "BCRYPT_SALT_ROUND",
+        "EXPRESS_SESSION_SECRET",
 
         // "SUPER_ADMIN_EMAIL",
         // "SUPER_ADMIN_PASSWORD",
 
-        // "ACCESS_SECRET",
-        // "ACCESS_EXPIRES",
-        // "REFRESH_SECRET",
-        // "REFRESH_EXPIRES",
+        "ACCESS_SECRET",
+        "ACCESS_EXPIRES",
+        "REFRESH_SECRET",
+        "REFRESH_EXPIRES",
 
-        // "CLOUDINARY_CLOUD_NAME",
-        // "CLOUDINARY_API_KEY",
-        // "CLOUDINARY_API_SECRET",
+        "CLOUDINARY_CLOUD_NAME",
+        "CLOUDINARY_API_KEY",
+        "CLOUDINARY_API_SECRET",
 
         // "STORE_ID",
         // "STORE_PASS",
@@ -101,20 +101,20 @@ const loadEnvVariables = (): EnvConfig => {
         FRONTEND_URL: process.env.FRONTEND_URL as string, 
         FRONTEND_URL2: process.env.FRONTEND_URL2 as string, 
 
-        // BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND as string,
-        // EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
+        BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND as string,
+        EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
 
         // SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
         // SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
 
-        // ACCESS_SECRET: process.env.ACCESS_SECRET as string,
-        // ACCESS_EXPIRES: process.env.ACCESS_EXPIRES as string,
-        // REFRESH_SECRET: process.env.REFRESH_SECRET as string,
-        // REFRESH_EXPIRES: process.env.REFRESH_EXPIRES as string,
+        ACCESS_SECRET: process.env.ACCESS_SECRET as string,
+        ACCESS_EXPIRES: process.env.ACCESS_EXPIRES as string,
+        REFRESH_SECRET: process.env.REFRESH_SECRET as string,
+        REFRESH_EXPIRES: process.env.REFRESH_EXPIRES as string,
 
-        // CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
-        // CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
-        // CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+        CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
+        CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY as string,
+        CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
 
         // STORE_ID: process.env.STORE_ID as string,
         // STORE_PASS: process.env.STORE_PASS as string,
