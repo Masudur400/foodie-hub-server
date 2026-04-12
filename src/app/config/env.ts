@@ -12,8 +12,8 @@ interface EnvConfig {
     BCRYPT_SALT_ROUND: string
     EXPRESS_SESSION_SECRET: string
 
-    // SUPER_ADMIN_EMAIL: string
-    // SUPER_ADMIN_PASSWORD: string
+    SUPER_ADMIN_EMAIL: string
+    SUPER_ADMIN_PASSWORD: string
 
     ACCESS_SECRET: string
     ACCESS_EXPIRES: string
@@ -57,8 +57,8 @@ const loadEnvVariables = (): EnvConfig => {
         "BCRYPT_SALT_ROUND",
         "EXPRESS_SESSION_SECRET",
 
-        // "SUPER_ADMIN_EMAIL",
-        // "SUPER_ADMIN_PASSWORD",
+        "SUPER_ADMIN_EMAIL",
+        "SUPER_ADMIN_PASSWORD",
 
         "ACCESS_SECRET",
         "ACCESS_EXPIRES",
@@ -104,8 +104,8 @@ const loadEnvVariables = (): EnvConfig => {
         BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND as string,
         EXPRESS_SESSION_SECRET: process.env.EXPRESS_SESSION_SECRET as string,
 
-        // SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
-        // SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+        SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+        SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
 
         ACCESS_SECRET: process.env.ACCESS_SECRET as string,
         ACCESS_EXPIRES: process.env.ACCESS_EXPIRES as string,
