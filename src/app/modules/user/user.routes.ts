@@ -22,6 +22,10 @@ router.get('/me',
     userControllers.getMe
 )
 
+router.get('/all-users',
+    checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
+    userControllers.getAllUsers)
+
 router.get('/:id',
     checkAuth(Role.SUPER_ADMIN, Role.ADMIN),
     userControllers.getSingleUser
