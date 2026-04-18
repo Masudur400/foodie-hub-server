@@ -1,9 +1,10 @@
 import { Router } from "express";
 import { validateRequest } from "../../middlewares/validateRequest";
-import { createUserZodSchema } from "./user.validation";
+import { createUserZodSchema, updateUserZodSchema } from "./user.validation";
 import { userControllers } from "./user.controller";
 import { checkAuth } from "../../middlewares/checkAuth";
-import { Role } from "./user.interface"; 
+import { Role } from "./user.interface";
+import { multerUpload } from "../../config/multer.config";
 
 
 
@@ -25,6 +26,13 @@ router.get('/me',
 router.get('/all-users',
     checkAuth(Role.ADMIN, Role.SUPER_ADMIN),
     userControllers.getAllUsers)
+
+router.patch('/update-profile',
+    checkAuth(...Object.values(Role)),
+    multerUpload.single('file'),
+    validateRequest(updateUserZodSchema), //optional
+    userControllers.updateMyProfile
+)
 
 router.get('/:id',
     checkAuth(Role.SUPER_ADMIN, Role.ADMIN),

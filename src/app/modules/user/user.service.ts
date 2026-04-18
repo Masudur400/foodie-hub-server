@@ -7,6 +7,7 @@ import bcryptjs from 'bcryptjs'
 import { envVars } from "../../config/env";
 import { setTokens } from "../../utils/setTokens";
 import { userSearchableFields } from './user.constents';
+import { deleteImageFromCLoudinary } from '../../config/cloudinary.config';
 
 
 
@@ -70,6 +71,27 @@ const getAllUsers = async (query: Record<string, string>) => {
 }
 
 
+const updateMyProfile = async(userId:string, payload:Partial<IUser>):Promise<IUser> =>{
+const user = await User.findById(userId)
+if(!user){
+    throw new AppError(httpStatus.NOT_FOUND, "user doesn't exist.")
+}
+const allowedFields:(keyof IUser)[] = ['name','phone','address', 'bio', 'picture']
+// delete old photo when upload new photo 
+if(payload.picture && user.picture){
+    await deleteImageFromCLoudinary(user.picture)
+}
+// updata allowedFields 
+for(const field of allowedFields){
+    if(payload[field] !== undefined) {
+        user.set(field, payload[field])
+    }
+}
+await user.save()
+return user
+}
+
+
 
 
 
@@ -81,4 +103,5 @@ export const userServices = {
     getMe,
     getSingleUser,
     getAllUsers,
+    updateMyProfile
 }

@@ -6,6 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from 'http-status'
 import { JwtPayload } from "jsonwebtoken";
 import AppError from "../../errorHandler/AppError";
+import { IUser } from "./user.interface";
 
 
 
@@ -64,7 +65,7 @@ const getSingleUser = catchAsync(async (req: Request, res: Response) => {
 
 
 
-const getAllUsers = catchAsync(async (req, res) => {
+const getAllUsers = catchAsync(async (req: Request, res: Response) => {
     const query = req.query;
     const result = await userServices.getAllUsers(query as Record<string, string>);
     sendResponse(res, {
@@ -75,6 +76,26 @@ const getAllUsers = catchAsync(async (req, res) => {
         meta: result.meta
     });
 });
+
+
+
+const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user?.id
+    if (!userId) {
+        throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized!')
+    }
+    const payload: Partial<IUser> = { ...req.body }
+    if (req.file?.path) {
+        payload.picture = req.file.path
+    }
+    const updateUser = await userServices.updateMyProfile(userId, payload)
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: 'Update successful!',
+        data: updateUser
+    })
+})
 
 
 
@@ -89,4 +110,5 @@ export const userControllers = {
     getMe,
     getSingleUser,
     getAllUsers,
+    updateMyProfile
 }
