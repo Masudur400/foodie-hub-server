@@ -6,7 +6,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from 'http-status'
 import { JwtPayload } from "jsonwebtoken";
 import AppError from "../../errorHandler/AppError";
-import { IUser } from "./user.interface";
+import { IUser, Role } from "./user.interface"; 
 
 
 
@@ -98,6 +98,33 @@ const updateMyProfile = catchAsync(async (req: Request, res: Response) => {
 })
 
 
+const updateUserByAdmin = catchAsync(async(req:Request, res:Response)=>{
+    const adminRole = req.user?.role
+    if(adminRole !== Role.SUPER_ADMIN){
+        res.status(httpStatus.UNAUTHORIZED).json({
+            success:false,
+            message:`only ${Role.SUPER_ADMIN} can update user Role & status.`
+        })
+        return
+    }
+    const userId = req.params.id as string
+    if(!userId){
+        res.status(httpStatus.BAD_REQUEST).json({
+            success: false,
+            message: "User ID is required",
+        });
+        return;
+    }
+    const payload = req.body; // Only isDeleted, isActive, isVerified, role 
+    const updatedUser = await userServices.updateUserByAdmin(userId, payload);
+    sendResponse(res, {
+        success: true,
+        statusCode: httpStatus.OK,
+        message: "User updated successfully",
+        data: updatedUser,
+    });
+})
+
 
 
 
@@ -110,5 +137,6 @@ export const userControllers = {
     getMe,
     getSingleUser,
     getAllUsers,
-    updateMyProfile
+    updateMyProfile,
+    updateUserByAdmin
 }

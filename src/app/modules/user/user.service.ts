@@ -1,6 +1,6 @@
 import { QueryBuilder } from './../../utils/queryBuilder';
 import AppError from "../../errorHandler/AppError";
-import { IAuthProvider, IUser } from "./user.interface";
+import { IAuthProvider, IUser, Role } from "./user.interface";
 import { User } from "./user.model";
 import httpStatus from 'http-status'
 import bcryptjs from 'bcryptjs'
@@ -71,25 +71,46 @@ const getAllUsers = async (query: Record<string, string>) => {
 }
 
 
-const updateMyProfile = async(userId:string, payload:Partial<IUser>):Promise<IUser> =>{
-const user = await User.findById(userId)
-if(!user){
-    throw new AppError(httpStatus.NOT_FOUND, "user doesn't exist.")
-}
-const allowedFields:(keyof IUser)[] = ['name','phone','address', 'bio', 'picture']
-// delete old photo when upload new photo 
-if(payload.picture && user.picture){
-    await deleteImageFromCLoudinary(user.picture)
-}
-// updata allowedFields 
-for(const field of allowedFields){
-    if(payload[field] !== undefined) {
-        user.set(field, payload[field])
+const updateMyProfile = async (userId: string, payload: Partial<IUser>): Promise<IUser> => {
+    const user = await User.findById(userId)
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "user doesn't exist.")
     }
+    const allowedFields: (keyof IUser)[] = ['name', 'phone', 'address', 'bio', 'picture']
+    // delete old photo when upload new photo 
+    if (payload.picture && user.picture) {
+        await deleteImageFromCLoudinary(user.picture)
+    }
+    // updata allowedFields 
+    for (const field of allowedFields) {
+        if (payload[field] !== undefined) {
+            user.set(field, payload[field])
+        }
+    }
+    await user.save()
+    return user
 }
-await user.save()
-return user
-}
+
+
+
+const updateUserByAdmin = async (userId: string, payload: Partial<IUser>): Promise<IUser> => {
+    const user = await User.findById(userId);
+    if (!user) {
+        throw new AppError(httpStatus.NOT_FOUND, "User doesn't exist.");
+    }
+    // can not assign as SUPER_ADMIN role
+    if (payload.role === Role.SUPER_ADMIN) {
+        throw new AppError(httpStatus.BAD_REQUEST, "You cannot assign SUPER_ADMIN role.");
+    }
+    const allowedFields: (keyof IUser)[] = ["isDeleted", "isActive", "isVerified", "role",];
+    allowedFields.forEach((field) => {
+        if (payload[field] !== undefined) {
+            user.set(field, payload[field]);
+        }
+    });
+    await user.save();
+    return user;
+};
 
 
 
@@ -103,5 +124,6 @@ export const userServices = {
     getMe,
     getSingleUser,
     getAllUsers,
-    updateMyProfile
+    updateMyProfile,
+    updateUserByAdmin,
 }

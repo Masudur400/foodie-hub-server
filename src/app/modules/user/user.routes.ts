@@ -39,6 +39,11 @@ router.get('/:id',
     userControllers.getSingleUser
 )
 
+router.patch("/:id",
+    checkAuth(Role.SUPER_ADMIN),
+    validateRequest(updateUserZodSchema),
+    userControllers.updateUserByAdmin
+)
 
 
 
